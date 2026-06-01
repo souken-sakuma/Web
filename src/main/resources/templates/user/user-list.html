@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ユーザー一覧</title>
+</head>
+<body>
+<h1>ユーザー一覧</h1>
+
+<a href="/users/new">新規ユーザー登録</a>
+
+<table border="1">
+    <tr>
+        <th>ユーザーID</th>
+        <th>名前</th>
+        <th>年齢</th>
+        <th>編集</th>
+        <th>削除</th>
+    </tr>
+    
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.age}"></td>
+
+        <td>
+            <a th:href="@{/users/edit/{id}(id=${user.id})}">編集</a>
+        </td>
+
+        <td>
+            <a th:href="@{/users/delete/{id}(id=${user.id})}"
+               onclick="return confirm('本当に削除しますか？');">
+               削除
+            </a>
+        </td>
+    </tr>
+</table>
+<form action="/" method="get">
+	    <button type="submit">メインメニューに戻る</button>
+
+</body>
+</html>
