@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>カート</title>
+</head>
+<body>
+<h1>カート</h1>
+
+
+<table border="1">
+		<tr>
+	        <th>商品名</th>
+	        <th>価格</th>
+	        <th>数量</th>
+	        <th>小計</th>
+	        <th>操作</th>
+	    </tr>
+    <tr th:each="ci : ${items}">
+        <td th:text="${ci.item.name}"></td>
+        <td th:text="${ci.item.price}"></td>
+
+		<td>
+		            <form th:action="@{|/cart/update/${ci.item.id}|}" method="post">
+		                <input type="number" name="quantity" th:value="${ci.quantity}" min="1">
+		                <button type="submit">更新</button>
+		            </form>
+		        </td>
+
+		        <td th:text="${ci.totalPrice}"></td>
+
+		        <td>
+		            <form th:action="@{|/cart/remove/${ci.item.id}|}" method="post">
+		                <button type="submit">削除</button>
+		            </form>
+		        </td>
+		    </tr>
+		</table>
+		
+<h3>合計金額: <span th:text="${total}"></span> 円</h3>
+
+<form action="/" method="get">
+	    <button type="submit">メインメニューに戻る</button>
+
+</body>
+</html>
