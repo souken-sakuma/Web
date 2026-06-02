@@ -59,4 +59,12 @@ public class Item {
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    public void decreaseStock(int quantity) {
+        if (this.stock < quantity) {
+            throw new IllegalStateException("在庫が不足しています");
+        }
+        this.stock -= quantity;
+    }
+    
 }

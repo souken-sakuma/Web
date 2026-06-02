@@ -1,7 +1,5 @@
 package com.example.demo.order;
 
-import java.time.LocalDateTime;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,13 +26,14 @@ public class OrderController {
     }
 
     @PostMapping("/create")
-    public String createOrder(@ModelAttribute("cart") Cart cart) {
-    	Order order = new Order();
-        order.setOrderDate(LocalDateTime.now());
-        order.setTotalPrice(cart.getTotalPrice());
-        orderRepository.save(order);
+    public String createOrder(@ModelAttribute("cart") Cart cart, Model model) {
+    	Order order = orderService.createOrder(cart);
 
+        // ★ カートを空にする
         cart.clear();
+
+        // 完了画面に注文情報を渡す
+        model.addAttribute("order", order);
 
         return "orders/complete";
     }

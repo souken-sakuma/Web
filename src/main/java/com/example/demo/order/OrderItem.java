@@ -25,6 +25,8 @@ public class OrderItem {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    private int price;
+
     public OrderItem() {
     }
 
@@ -54,5 +56,13 @@ public class OrderItem {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+    
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

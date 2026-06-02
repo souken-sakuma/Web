@@ -46,9 +46,9 @@ public class Order {
         return items;
     }
 
-    public void addItem(OrderItem item) {
-        items.add(item);
-        item.setOrder(this);
+    public void addItem(OrderItem orderItem) {
+        this.items.add(orderItem);
+        orderItem.setOrder(this);
     }
     
     public void setTotalPrice(int totalPrice) {
