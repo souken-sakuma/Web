@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: base(~{::title}, ~{::content})}">
+
 <head>
     <meta charset="UTF-8">
     <title>商品一覧</title>
 </head>
 <body>
+<div th:fragment="content">
     <h2>商品一覧</h2>
     <a href="/items/new">新規作成</a>
     
@@ -33,7 +36,8 @@
             </td>
         </tr>
     </table>
-	<form action="/" method="get">
+	<div action="/" method="get">
 	    <button type="submit">メインメニューに戻る</button>
+</div>
 </body>
 </html>

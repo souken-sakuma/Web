@@ -22,7 +22,7 @@ public class SecurityConfig {
 
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/users/signup", "/users/new").permitAll()  // 誰でもOK
+                .requestMatchers("/", "/users/signup", "/users/new","/users/list").permitAll()  // 誰でもOK
                 .anyRequest().authenticated()  // それ以外はログイン必須
             )
             .csrf(csrf -> csrf.disable())

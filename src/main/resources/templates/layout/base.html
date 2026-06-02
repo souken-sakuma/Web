@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="base(title, content)">
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="${title}">ページタイトル</title>
+</head>
+<body>
+
+	<!-- 共通ヘッダー -->
+	    <div th:replace="layout/fragments/header :: header"></div>
+
+	    <!-- ★ 共通ナビゲーションバー（全ページに表示） -->
+	    <nav style="background:#ddd; padding:10px;">
+	        <a href="/items" style="margin-right:20px;">商品ページ</a>
+	        <a href="/users/list" style="margin-right:20px;">ユーザーページ</a>
+	        <a href="/cart" style="margin-right:20px;">買い物かご</a>
+	    </nav>
+
+	    <!-- ページごとの中身 -->
+	    <main th:replace="${content}"></main>
+
+</body>
+</html>
