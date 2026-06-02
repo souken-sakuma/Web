@@ -39,6 +39,11 @@
 		
 <h3>合計金額: <span th:text="${total}"></span> 円</h3>
 
+<form action="/orders/create" method="post">
+    <button type="submit">注文を確定する</button>
+</form>
+
+
 <form action="/" method="get">
 	    <button type="submit">メインメニューに戻る</button>
 

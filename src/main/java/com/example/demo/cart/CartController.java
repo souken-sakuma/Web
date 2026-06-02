@@ -27,37 +27,48 @@ public class CartController {
 	}
 	
 	@ModelAttribute("cart")
-	public CartService cart() {
-		return new CartService();
+	public Cart cart() {
+		return new Cart();
 	}
 	
 	@GetMapping
-	public String showCart(@ModelAttribute("cart") CartService cart, Model model) {
+	public String showCart(@ModelAttribute("cart") Cart cart, Model model) {
 	    model.addAttribute("items", cart.getItems());
 	    model.addAttribute("total", cart.getTotalPrice());
 	    return "cart/cart";
 	}
 
 	
-	@PostMapping("/add/{id}")
-	public String addToCart(@PathVariable Long id, @ModelAttribute("cart") CartService cart) {
-		Item item = itemRepo.findById(id).orElseThrow();
-		cart.addItem(new CartItem(item, 1));
-		return "redirect:/cart";
+	@GetMapping("/add/{id}")
+	public String addToCart(@PathVariable Long id, @ModelAttribute("cart") Cart cart) {
+
+	    Item item = itemRepo.findById(id).orElseThrow();
+
+	    for (CartItem ci : cart.getItems()) {
+	        if (ci.getItem().getId().equals(id)) {
+	            ci.setQuantity(ci.getQuantity() + 1);
+	            return "redirect:/cart";
+	        }
+	    }
+
+	    cart.addItem(new CartItem(item, 1));
+
+	    return "redirect:/cart";
 	}
+
 	
 	 @PostMapping("/update/{id}")
 	    public String updateQuantity(
 	            @PathVariable Long id,
 	            @RequestParam int quantity,
-	            @ModelAttribute("cart") CartService cart) {
+	            @ModelAttribute("cart") Cart cart) {
 
 	        cart.updateQuantity(id, quantity);
 	        return "redirect:/cart";
 	    }
 
 	    @PostMapping("/remove/{id}")
-	    public String removeItem(@PathVariable Long id, @ModelAttribute("cart") CartService cart) {
+	    public String removeItem(@PathVariable Long id, @ModelAttribute("cart") Cart cart) {
 	        cart.removeItem(id);
 	        return "redirect:/cart";
 	    }

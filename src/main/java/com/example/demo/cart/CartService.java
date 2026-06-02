@@ -40,4 +40,9 @@ public class CartService {
                 .mapToInt(CartItem::getTotalPrice)
                 .sum();
     }
+    
+    public void clear() {
+        cart.clear();
+    }
+
 }

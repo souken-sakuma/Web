@@ -23,6 +23,7 @@
             <td th:text="${item.price}"></td>
             <td th:text="${item.stock}"></td>
             <td>
+				<a th:href="@{'/cart/add/' + ${item.id}}">カートに追加</a>
 				<form th:action="@{|/items/${item.id}/edit|}" method="get" style="display:inline;">
 				    <button type="submit">編集</button>
 				</form>
