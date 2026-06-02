@@ -13,11 +13,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserViewController {
 	
 	private final UserRepository repo;
+	private final UserService userService;
 
-    public UserViewController(UserRepository repo) {
+    public UserViewController(UserRepository repo, UserService userService) {
         this.repo = repo;
+        this.userService = userService;
+    }
+    
+    @GetMapping("/signup")
+    public String singupForm(Model model) {
+    	model.addAttribute("user", new User());
+    	return "user/signup";
+    }
+    
+    @PostMapping("/signup")
+    public String singup(@ModelAttribute User user) {
+    	userService.registerUser(user);
+    	return "redirect:/login";
     }
 
+    @GetMapping("")
+    public String users(Model model) {
+        model.addAttribute("users", repo.findAll());
+        return "user/user-list";
+    }
+    
+    
+    
+    
     @GetMapping("/list")
     public String listUsers(Model model) {
         model.addAttribute("users", repo.findAll());
