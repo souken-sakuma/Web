@@ -1,5 +1,8 @@
 package com.example.demo.user;
 
+import java.security.Principal;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +26,7 @@ public class UserViewController {
     @GetMapping("/signup")
     public String singupForm(Model model) {
     	model.addAttribute("user", new User());
-    	return "user/signup";
+    	return "users/signup";
     }
     
     @PostMapping("/signup")
@@ -33,24 +36,22 @@ public class UserViewController {
     }
 
     @GetMapping("")
-    public String users(Model model) {
-        model.addAttribute("users", repo.findAll());
-        return "user/user-list";
-    }
-    
-    
-    
-    
-    @GetMapping("/list")
-    public String listUsers(Model model) {
-        model.addAttribute("users", repo.findAll());
-        return "user/user-list";
+    public String users(Principal principal) {
+
+        User user = repo.findByUsername(principal.getName())
+                .orElseThrow();
+
+        if (user.getRole().equals("USER")) {
+            return "redirect:/users/profile";
+        }
+
+        return "redirect:/users/list";
     }
     
     @GetMapping("/new")
     public String newUserForm(Model model) {
     	model.addAttribute("user", new User());
-    	return "user/user-form";
+    	return "users/user-form";
     }
     
     @PostMapping("/new")
@@ -59,22 +60,66 @@ public class UserViewController {
     	return "redirect:/users/list";
     }
     
-    @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable Long id) {
-    	repo.deleteById(id);
-    	return "redirect:/users/list";
-    }
-    
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model) {
     	User user = repo.findById(id).orElseThrow();
     	model.addAttribute("user", user);
-    	return "user/user-edit-form";
+    	return "users/user-edit-form";
     }
     
     @PostMapping("/edit")
     public String update(@ModelAttribute User user) {
     	repo.save(user);
     	return "redirect:/users/list";
+    }
+    
+    @GetMapping("/list")
+    public String list(Model model, Principal principal) {
+    	
+    	User user = repo.findByUsername(principal.getName())
+    			.orElseThrow();
+    	
+    	if (user.getRole().equals("ROLE_USER")) {
+    		return "redirect:/users/profile";
+    	}
+    	
+    	model.addAttribute("users", repo.findAll());
+    	return "users/user-list";
+    }
+    
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin/edit/{id}")
+    public String edit(@PathVariable Long id, Model model) {
+        model.addAttribute("user", repo.findById(id).orElseThrow());
+        return "users/edit";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+    	repo.deleteById(id);
+        return "redirect:/users/list";
+    }
+    
+    @GetMapping("/profile")
+    public String profile(Model model, Principal principal) {
+    	User user = repo.findByUsername(principal.getName())
+                .orElseThrow();
+        model.addAttribute("user", user);
+        return "users/profile";
+    }
+    
+    @PostMapping("/profile/edit")
+    public String updateProfile(User form, Principal principal) {
+    	User user = repo.findByUsername(principal.getName())
+                .orElseThrow();
+
+        user.setName(form.getName());
+        user.setAge(form.getAge());
+        user.setUsername(form.getUsername());
+
+        repo.save(user);
+
+        return "redirect:/users/profile";
     }
 }

@@ -36,7 +36,7 @@
             </table>
         </td>
 
-        <td th:text="${#numbers.sum(order.items.^[item.price * quantity])}"></td>
+		<td th:text="${order.totalPrice}"></td>
     </tr>
 
 </table>

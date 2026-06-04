@@ -2,6 +2,7 @@ package com.example.demo.order;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -65,6 +66,14 @@ public class OrderController {
 
         return "orders/history";
     }
+    
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin-history")
+    public String adminHistory(Model model) {
+        model.addAttribute("orders", orderService.findAll());
+        return "orders/admin-history";
+    }
+
 
     
     @GetMapping("/detail/{id}")

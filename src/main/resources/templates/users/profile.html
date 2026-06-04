@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: base(~{::title}, ~{::content})}">
+
+<head>
+    <title>マイページ</title>
+</head>
+
+<body>
+<div th:fragment="content">
+
+    <h1>マイページ</h1>
+
+    <table border="1" style="margin-bottom: 20px;">
+        <tr>
+            <th>ID</th>
+            <td th:text="${user.id}"></td>
+        </tr>
+        <tr>
+            <th>ユーザー名</th>
+            <td th:text="${user.username}"></td>
+        </tr>
+        <tr>
+            <th>名前</th>
+            <td th:text="${user.name}"></td>
+        </tr>
+        <tr>
+            <th>年齢</th>
+            <td th:text="${user.age}"></td>
+        </tr>
+    </table>
+
+    <form th:action="@{/users/profile/edit}" method="post">
+        <h3>プロフィール編集</h3>
+
+        <label>名前：</label>
+        <input type="text" name="name" th:value="${user.name}"><br><br>
+
+        <label>年齢：</label>
+        <input type="number" name="age" th:value="${user.age}"><br><br>
+
+        <label>ユーザー名：</label>
+        <input type="text" name="username" th:value="${user.username}"><br><br>
+
+        <button type="submit">更新する</button>
+    </form>
+
+</div>
+</body>
+</html>

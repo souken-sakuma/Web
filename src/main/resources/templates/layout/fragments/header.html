@@ -6,6 +6,19 @@
 
 <div th:fragment="header">
     <header style="padding: 10px; background: #eee;">
+		<div sec:authorize="hasRole('ADMIN')" style="color:red; font-weight:bold;">
+		    管理者としてログイン中
+		</div>
+		<div sec:authorize="hasRole('USER')">
+		    <a href="/users/profile">マイページ</a>
+		</div>
+		
+		<div sec:authorize="hasRole('ADMIN')">
+		    <a href="/orders/admin-history">全ユーザーの注文履歴</a>
+		</div>
+
+
+		
         <div style="float: right;">
 			
 			<span sec:authorize="isAnonymous()">
@@ -14,7 +27,7 @@
             </span>
 			
             <span th:if="${#authorization.expression('isAuthenticated()')}">
-                ログイン中: <strong th:text="${#authentication.name}"></strong>
+                ユーザー名: <strong th:text="${#authentication.name}"></strong>
                 | <a href="/logout">ログアウト</a>
             </span>
 			

@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -20,25 +21,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/users/signup", "/users/new","/users/list").permitAll()  // 誰でもOK
-                .anyRequest().authenticated()  // それ以外はログイン必須
-            )
-            .csrf(csrf -> csrf.disable())
-            .formLogin(login -> login
-                .loginPage("/login")        // ★ カスタムログインページを使う
-                .loginProcessingUrl("/login") // ★ POST先
-                .defaultSuccessUrl("/users", true) // ★ ログイン成功後
+    	http
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/","/items", "/users/signup", "/users/new", "/logout")
                 .permitAll()
-            )
-            .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .permitAll()
-            );
+            .anyRequest().authenticated()
+        )
+        .csrf(csrf -> csrf.disable())
+        .formLogin(login -> login
+            .loginPage("/login")
+            .loginProcessingUrl("/login")
+            .defaultSuccessUrl("/users", true)
+            .permitAll()
+        )
+        .logout(logout -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/")
+            .permitAll()
+        );
 
-        return http.build();
-    }
+    return http.build();
+}
 }
 

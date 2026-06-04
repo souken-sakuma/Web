@@ -60,7 +60,9 @@ public class Order {
     }
     
     public int getTotalPrice() {
-        return totalPrice;
+    	return items.stream()
+    	        .mapToInt(i -> i.getPrice() * i.getQuantity())
+    	        .sum();
     }
     
     @ManyToOne
