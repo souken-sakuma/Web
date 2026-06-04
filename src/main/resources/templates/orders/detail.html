@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: base(~{::title}, ~{::content})}">
+
+<head>
+    <title>注文詳細</title>
+</head>
+
+<body>
+<div th:fragment="content">
+
+<h1>注文詳細</h1>
+
+<p>注文日: <span th:text="${order.orderDate}"></span></p>
+<p>合計金額: <span th:text="${order.totalPrice}"></span>円</p>
+
+<h2>注文商品</h2>
+
+<table border="1">
+    <tr>
+        <th>商品名</th>
+        <th>数量</th>
+        <th>小計</th>
+    </tr>
+
+    <tr th:each="item : ${order.items}">
+        <td th:text="${item.item.name}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="${item.price}"></td>
+    </tr>
+</table>
+
+</div>
+</body>
+</html>

@@ -5,12 +5,17 @@ import java.util.List;
 
 import jakarta.transaction.Transactional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.cart.Cart;
 import com.example.demo.cart.CartItem;
 import com.example.demo.item.Item;
 import com.example.demo.item.ItemRepository;
+import com.example.demo.user.User;
+import com.example.demo.user.UserRepository;
+
 
 
 @Service
@@ -18,10 +23,14 @@ public class OrderService {
 
     private final OrderRepository orderRepo;
     private final ItemRepository itemRepo;
+    private final UserRepository userRepository;
+    
 
-    public OrderService(OrderRepository orderRepo, ItemRepository itemRepo) {
+    public OrderService(OrderRepository orderRepo, ItemRepository itemRepo, UserRepository userRepository) {
         this.orderRepo = orderRepo;
         this.itemRepo = itemRepo;
+        this.userRepository = userRepository;
+        
     }
 
     @Transactional
@@ -29,6 +38,15 @@ public class OrderService {
 
         Order order = new Order();
         order.setOrderDate(LocalDateTime.now());
+        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalStateException("ユーザーが見つかりません: " + username));
+        order.setUser(user);
+
+
         
         int total = 0;
 
@@ -65,4 +83,9 @@ public class OrderService {
     public List<Order> findAll() {
         return orderRepo.findAll();
     }
+    
+    public List<Order> getOrderHistory(User user) {
+        return orderRepo.findByUserOrderByOrderDateDesc(user);
+    }
+
 }

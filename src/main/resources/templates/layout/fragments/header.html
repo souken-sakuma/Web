@@ -7,10 +7,21 @@
 <div th:fragment="header">
     <header style="padding: 10px; background: #eee;">
         <div style="float: right;">
+			
+			<span sec:authorize="isAnonymous()">
+                <a th:href="@{/users/signup}">ユーザー登録</a> |
+                <a th:href="@{/login}">ログイン</a>
+            </span>
+			
             <span th:if="${#authorization.expression('isAuthenticated()')}">
                 ログイン中: <strong th:text="${#authentication.name}"></strong>
                 | <a href="/logout">ログアウト</a>
             </span>
+			
+			<span sec:authorize="isAuthenticated()">
+			    <a th:href="@{/orders/history}">注文履歴</a> |
+			</span>
+
         </div>
         <div style="clear: both;"></div>
     </header>
