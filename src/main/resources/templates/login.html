@@ -1,23 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/base :: base(~{::title}, ~{::content})">
+
 <head>
-    <meta charset="UTF-8">
     <title>ログイン</title>
 </head>
+
 <body>
-<h2>ログイン</h2>
+<div th:fragment="content">
 
-<form th:action="@{/login}" method="post">
-    <label>ユーザー名：</label>
-    <input type="text" name="username" required><br>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-6 col-lg-4">
 
-    <label>パスワード：</label>
-    <input type="password" name="password" required><br>
+                <div class="card shadow-sm">
+                    <div class="card-body">
 
-    <button type="submit">ログイン</button>
-</form>
-<p>
-    <a th:href="@{/users/signup}">新規ユーザー登録はこちら</a>
-</p>
+                        <h3 class="text-center mb-4">ログイン</h3>
+
+                        <form th:action="@{/login}" method="post">
+
+                            <div class="mb-3">
+                                <label class="form-label">ユーザー名</label>
+                                <input type="text" name="username" class="form-control" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">パスワード</label>
+                                <input type="password" name="password" class="form-control" required>
+                            </div>
+
+                            <button class="btn btn-primary w-100">ログイン</button>
+                        </form>
+
+                        <a th:href="@{/users/signup}" class="btn btn-outline-secondary w-100 mt-3">
+                            新規登録はこちら
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
 </body>
 </html>

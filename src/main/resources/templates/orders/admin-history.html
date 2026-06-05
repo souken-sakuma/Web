@@ -1,37 +1,42 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       th:replace="~{layout/base :: base(~{::title}, ~{::content})}">
 
-<head>
-    <title>全ユーザーの注文履歴（管理者）</title>
-</head>
+	  <head>
+	      <meta charset="UTF-8">
+	      <title>全ユーザーの注文履歴（管理者）</title>
+		  <link rel="stylesheet" th:href="@{/css/style.css}">
+	  </head>
 
-<body>
-<div th:fragment="content">
+	  <div th:fragment="content">
 
-<h1>全ユーザーの注文履歴</h1>
-<div sec:authorize="hasRole('ADMIN')">
-    <a href="/orders/admin-history">全ユーザーの注文履歴</a>
-</div>
+	      <h1>全ユーザーの注文履歴</h1>
 
-<table border="1">
-    <tr>
-        <th>ユーザー名</th>
-        <th>注文日</th>
-        <th>合計金額</th>
-        <th>詳細</th>
-    </tr>
+	      <div sec:authorize="hasRole('ADMIN')">
+	      </div>
 
-    <tr th:each="order : ${orders}">
-        <td th:text="${order.user.username}"></td>
-        <td th:text="${order.orderDate}"></td>
-        <td th:text="${order.totalPrice}"></td>
-        <td>
-            <a th:href="@{|/orders/detail/${order.id}|}">詳細を見る</a>
-        </td>
-    </tr>
-</table>
+		  <table class="table-common">
+		      <thead>
+		          <tr>
+		              <th>ユーザー名</th>
+		              <th>注文日</th>
+		              <th>合計金額</th>
+		              <th>詳細</th>
+		          </tr>
+		      </thead>
 
-</div>
-</body>
-</html>
+		      <tbody>
+		          <tr th:each="order : ${orders}">
+		              <td class="username-cell" th:text="${order.user.username}"></td>
+		              <td th:text="${order.orderDate}"></td>
+		              <td th:text="${order.totalPrice}"></td>
+		              <td>
+		                  <a th:href="@{|/orders/detail/${order.id}|}">詳細を見る</a>
+		              </td>
+		          </tr>
+		      </tbody>
+		  </table>
+
+
+	  </div>
+

@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layout/base :: base(~{::title}, ~{::content})}">
 
@@ -6,49 +5,55 @@
     <meta charset="UTF-8">
     <title>カート</title>
 </head>
-<body>
+
 <div th:fragment="content">
-<h1>カート</h1>
 
+    <h1 class="mb-4">カート</h1>
 
-<table border="1">
-		<tr>
-	        <th>商品名</th>
-	        <th>価格</th>
-	        <th>数量</th>
-	        <th>小計</th>
-	        <th>操作</th>
-	    </tr>
-    <tr th:each="ci : ${items}">
-        <td th:text="${ci.item.name}"></td>
-        <td th:text="${ci.item.price}"></td>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-info">
+                <tr>
+                    <th>商品名</th>
+                    <th>価格</th>
+                    <th>数量</th>
+                    <th>小計</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
 
-		<td>
-		            <form th:action="@{|/cart/update/${ci.item.id}|}" method="post">
-		                <input type="number" name="quantity" th:value="${ci.quantity}" min="1">
-		                <button type="submit">更新</button>
-		            </form>
-		        </td>
+            <tbody>
+                <tr th:each="ci : ${items}">
+                    <td th:text="${ci.item.name}"></td>
+                    <td th:text="${ci.item.price}"></td>
 
-		        <td th:text="${ci.totalPrice}"></td>
+                    <td>
+                        <form th:action="@{|/cart/update/${ci.item.id}|}" method="post" class="d-flex">
+                            <input type="number" name="quantity" th:value="${ci.quantity}" min="1" class="form-control me-2" style="width: 80px;">
+                            <button type="submit" class="btn btn-primary btn-sm">更新</button>
+                        </form>
+                    </td>
 
-		        <td>
-		            <form th:action="@{|/cart/remove/${ci.item.id}|}" method="post">
-		                <button type="submit">削除</button>
-		            </form>
-		        </td>
-		    </tr>
-		</table>
-		
-<h3>合計金額: <span th:text="${total}"></span> 円</h3>
+                    <td th:text="${ci.totalPrice}"></td>
 
-<form action="/orders/create" method="post">
-    <button type="submit">注文を確定する</button>
-</form>
+                    <td>
+                        <form th:action="@{|/cart/remove/${ci.item.id}|}" method="post">
+                            <button type="submit" class="btn btn-danger btn-sm">削除</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
+    <h3 class="mt-4">合計金額: <span th:text="${total}"></span> 円</h3>
 
-<form action="/" method="get">
-    <button type="submit">メインメニューに戻る</button>
-</form>		
-</body>
+    <form action="/orders/create" method="post" class="mt-3">
+        <button type="submit" class="btn btn-success">注文を確定する</button>
+    </form>
+
+    <a href="/" class="btn btn-secondary mt-3">メインメニューに戻る</a>
+
+</div>
+
 </html>
