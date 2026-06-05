@@ -12,10 +12,15 @@
     <h1>マイページ</h1>
 
     <table border="1" style="margin-bottom: 20px;">
-        <tr>
+        <!--
+		<tr>
             <th>ID</th>
             <td th:text="${user.id}"></td>
         </tr>
+		-->
+		<tr>
+            <th>会員番号</th>
+            <td th:text="${user.memberNumber}"></td>		        
         <tr>
             <th>ユーザー名</th>
             <td th:text="${user.username}"></td>

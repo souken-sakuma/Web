@@ -13,12 +13,6 @@
 		    <a href="/users/profile">マイページ</a>
 		</div>
 		
-		<div sec:authorize="hasRole('ADMIN')">
-		    <a href="/orders/admin-history">全ユーザーの注文履歴</a>
-		</div>
-
-
-		
         <div style="float: right;">
 			
 			<span sec:authorize="isAnonymous()">

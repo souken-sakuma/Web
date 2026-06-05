@@ -23,15 +23,17 @@ public class SecurityConfig {
 
     	http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/","/items", "/users/signup", "/users/new", "/logout")
+            .requestMatchers("/","/items", "/users/signup", "/users/new", "/logout","/encode")
                 .permitAll()
+                
+                .requestMatchers("/orders/admin-history").hasRole("ADMIN")
             .anyRequest().authenticated()
         )
         .csrf(csrf -> csrf.disable())
         .formLogin(login -> login
             .loginPage("/login")
             .loginProcessingUrl("/login")
-            .defaultSuccessUrl("/users", true)
+            .defaultSuccessUrl("/users", false)
             .permitAll()
         )
         .logout(logout -> logout

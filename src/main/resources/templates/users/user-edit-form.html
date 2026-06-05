@@ -1,28 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<title>ユーザー編集</title>
+    <meta charset="UTF-8">
+    <title>ユーザー編集</title>
 </head>
 <body>
-	<h1>ユーザー編集</h1>
 
-	<form th:action="@{/users/edit}" th:object="${user}" method="post">
-		
-		<input type="hidden" th:field="*{id}">
-		
-		<div>
-			<label>名前:</label>
-			<input type="text" th:field="*{name}">
-		</div>
-		
-		<div>
-			<label>年齢:</label>
-			<input type="number" th:field="*{age}">
-		</div>
-		
-		<button type="submit">更新</button>
-	</form>
+    <h1>ユーザー編集</h1>
+
+    <form th:action="@{/users/edit}" th:object="${user}" method="post">
+
+        <!-- ID（編集不可） -->
+        <div>
+            <label>ID：</label>
+            <input type="text" th:field="*{id}" readonly>
+        </div>
+
+        <!-- 会員番号（編集不可） -->
+        <div>
+            <label>会員番号：</label>
+            <input type="text" th:field="*{memberNumber}" readonly>
+        </div>
+
+        <!-- 名前（編集可能） -->
+        <div>
+            <label>名前：</label>
+            <input type="text" th:field="*{name}">
+        </div>
+
+        <!-- 年齢（編集可能） -->
+        <div>
+            <label>年齢：</label>
+            <input type="number" th:field="*{age}">
+        </div>
+
+        <!-- ユーザー名（編集不可にするなら readonly に） -->
+        <div>
+            <label>ユーザー名：</label>
+            <input type="text" th:field="*{username}" readonly>
+        </div>
+
+        <button type="submit">更新</button>
+    </form>
 
 </body>
 </html>

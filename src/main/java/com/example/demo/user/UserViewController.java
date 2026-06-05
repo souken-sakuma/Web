@@ -41,12 +41,19 @@ public class UserViewController {
         User user = repo.findByUsername(principal.getName())
                 .orElseThrow();
 
-        if (user.getRole().equals("USER")) {
+        // 一般ユーザー
+        if (user.getRole().equals("USER") || user.getRole().equals("ROLE_USER")) {
             return "redirect:/users/profile";
+        }
+
+        // 管理者
+        if (user.getRole().equals("ADMIN") || user.getRole().equals("ROLE_ADMIN")) {
+            return "redirect:/orders/admin-history";
         }
 
         return "redirect:/users/list";
     }
+
     
     @GetMapping("/new")
     public String newUserForm(Model model) {

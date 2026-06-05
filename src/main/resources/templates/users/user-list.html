@@ -12,23 +12,32 @@
 <body>
 <div th:fragment="content">
     <h1>ユーザー一覧</h1>
+	<form th:action="@{/admin/users/search}" method="get">
+	    <input type="text" name="keyword" placeholder="会員番号で検索">
+	    <button type="submit">検索</button>
+		<button type="submit"><a href="/admin/users/new">新規登録</a></button>
+	</form>
 
     <table border="1">
         <tr>
-            <th>ID</th><th>名前</th><th>年齢</th><th>ユーザー名</th><th>操作</th>
+            <th>ID</th><th>会員番号</th><th>名前</th><th>年齢</th><th>ユーザー名</th><th>権限</th><th>操作</th>
         </tr>
-        <tr th:each="u : ${users}">
-            <td th:text="${u.id}"></td>
-            <td th:text="${u.name}"></td>
-            <td th:text="${u.age}"></td>
-            <td th:text="${u.username}"></td>
-			<td sec:authorize="hasRole('ADMIN')">
+		<tr th:each="u : ${users}">
+		    <td th:text="${u.id}"></td>
+		    <td th:text="${u.memberNumber}"></td>
+		    <td th:text="${u.name}"></td>
+		    <td th:text="${u.age}"></td>
+		    <td th:text="${u.username}"></td>
+			<td th:text="${u.role}"></td>
+
+			<td sec:authorize="hasRole('ADMIN')">	
 			    <a th:href="@{'/users/edit/' + ${u.id}}">編集</a>
 			    <a th:href="@{'/users/delete/' + ${u.id}}">削除</a>
 			</td>
 
         </tr>
     </table>
+
 	<form action="/" method="get">
 	    <button type="submit">メインメニューに戻る</button>
 	</form>

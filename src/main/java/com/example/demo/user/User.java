@@ -19,17 +19,19 @@ public class User {
     private String username;
     private String password;
     private String role;
+    private String memberNumber;
 
     public User() { 
     	
     }
     
-    public User(String username, String password, String role, String name, Integer age) {
+    public User(String username, String password, String role, String name, Integer age, String memberNumber) {
     	this.username = username;
         this.password = password;
         this.role = role;
         this.name = name;
         this.age = age;
+        this.memberNumber = memberNumber;
     }
 
     public Long getId() {
@@ -78,5 +80,13 @@ public class User {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+    
+    public String getMemberNumber() {
+    	return memberNumber;
+    }
+    
+    public void setMemberNumber(String memberNumber) {
+    	this.memberNumber = memberNumber;
     }
 }

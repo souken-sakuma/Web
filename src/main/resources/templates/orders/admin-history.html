@@ -10,6 +10,9 @@
 <div th:fragment="content">
 
 <h1>全ユーザーの注文履歴</h1>
+<div sec:authorize="hasRole('ADMIN')">
+    <a href="/orders/admin-history">全ユーザーの注文履歴</a>
+</div>
 
 <table border="1">
     <tr>
