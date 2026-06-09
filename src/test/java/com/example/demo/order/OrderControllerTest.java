@@ -18,7 +18,6 @@ import com.example.demo.item.ItemRepository;
 import com.example.demo.user.User;
 import com.example.demo.user.UserRepository;
 
-
 @SpringBootTest
 public class OrderControllerTest {
 
@@ -31,7 +30,7 @@ public class OrderControllerTest {
     UserRepository repo;
 
     @Autowired
-    OrderRepository orderRepository;  // ← これが正しい
+    OrderRepository orderRepository;
     
     @Autowired
     ItemRepository itemRepository;

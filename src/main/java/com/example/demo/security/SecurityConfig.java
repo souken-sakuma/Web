@@ -23,7 +23,7 @@ public class SecurityConfig {
 
     	http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/","/items", "/users/signup", "/users/new", "/logout","/encode","/css/**")
+            .requestMatchers("/","/items","/signup", "/users/signup", "/users/new", "/logout","/encode","/css/**")
                 .permitAll()
                 
                 .requestMatchers("/orders/admin-history").hasRole("ADMIN")
