@@ -12,10 +12,10 @@ public class User {
 
     @Id
     @GeneratedValue
-    @Column(unique = true)
     private Long id;
     private String name;
     private Integer age;
+    @Column(unique = true)
     private String username;
     private String password;
     private String role;
