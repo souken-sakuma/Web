@@ -12,4 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	User findTopByOrderByIdDesc();
 	
 	List<User> findByMemberNumberContaining(String keyword);
+	
+	void deleteByUsername(String username);
+
 }

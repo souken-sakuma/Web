@@ -64,7 +64,8 @@ public class UserViewController {
     
     @PostMapping("/new")
     public String createUser(@ModelAttribute User user) {
-    	repo.save(user);
+    	userService.registerUser(user);
+    	//repo.save(user);//
     	return "redirect:/users/list";
     }
     
