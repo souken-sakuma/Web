@@ -1,8 +1,5 @@
 package com.example.demo.order;
 
-import java.util.List;
-
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -26,7 +23,6 @@ public class OrderController {
 	private final OrderRepository orderRepository;
     private final OrderService orderService;    
     private final UserRepository userRepository;
-   
 
     public OrderController(OrderRepository orderRepository, OrderService orderService, UserRepository userRepository) {
         this.orderRepository = orderRepository;
@@ -48,31 +44,22 @@ public class OrderController {
     }
     
 
-    @GetMapping
-    public String list(Model model) {
-        model.addAttribute("orders", orderService.findAll());
-        return "orders/list";
-    }
-    
     @GetMapping("/history")
     public String history(Model model, @AuthenticationPrincipal UserDetails userDetails) {
 
         User user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new IllegalStateException("ユーザーが見つかりません"));
 
-        List<Order> orders = orderService.getOrderHistory(user);
-
-        model.addAttribute("orders", orders);
+        if ("ADMIN".equals(user.getRole())) {
+            model.addAttribute("orders", orderService.getAllOrderHistory());
+        } else {
+            model.addAttribute("orders", orderService.getOrderHistory(user));
+        }
 
         return "orders/history";
     }
-    
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/admin-history")
-    public String adminHistory(Model model) {
-        model.addAttribute("orders", orderService.findAll());
-        return "orders/admin-history";
-    }
+
+
 
 
     

@@ -22,13 +22,25 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
     	http
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/","/items","/signup", "/users/signup", "/users/new", "/logout","/encode","/css/**")
-                .permitAll()
-                
-                .requestMatchers("/orders/admin-history").hasRole("ADMIN")
-            .anyRequest().authenticated()
-        )
+    	.authorizeHttpRequests(auth -> auth
+    			.requestMatchers(
+    			        "/", "/items", "/item", "/item/**",
+    			        "/item-names",
+    			        "/signup", "/users/signup", "/users/new",
+    			        "/logout", "/encode", "/css/**"
+    			    ).permitAll()
+
+    		    // 一般ユーザーも使うプロフィールは「ログインしていればOK」
+    		    .requestMatchers("/users/profile", "/users/profile/**").authenticated()
+
+    		    // 管理者だけが使うユーザー管理系
+    		    .requestMatchers("/users/list", "/users/new", "/users/edit/**", "/users/delete/**")
+    		        .hasRole("ADMIN")
+
+    		    .requestMatchers("/orders/admin-history").hasRole("ADMIN")
+    		    .anyRequest().authenticated()
+    		)
+
         .csrf(csrf -> csrf.disable())
         .formLogin(login -> login
             .loginPage("/login")

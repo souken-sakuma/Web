@@ -49,7 +49,7 @@ public class UserViewController {
 
         // 管理者
         if (user.getRole().equals("ADMIN") || user.getRole().equals("ROLE_ADMIN")) {
-            return "redirect:/orders/admin-history";
+        	return "redirect:/users/list";
         }
 
         return "redirect:/users/list";
@@ -88,12 +88,14 @@ public class UserViewController {
     	User user = repo.findByUsername(principal.getName())
     			.orElseThrow();
     	
-    	if (user.getRole().equals("ROLE_USER")) {
-    		return "redirect:/users/profile";
-    	}
-    	
-    	model.addAttribute("users", repo.findAll());
-    	return "users/user-list";
+    	// 一般ユーザーはプロフィールへ
+        if (user.getRole().equals("USER") || user.getRole().equals("ROLE_USER")) {
+            return "redirect:/users/profile";
+        }
+
+        // 管理者はユーザー一覧ページを表示
+        model.addAttribute("users", repo.findAll());
+        return "users/user-list";   // ★ これが正しい
     }
     
     @PreAuthorize("hasRole('ADMIN')")
@@ -112,10 +114,17 @@ public class UserViewController {
     
     @GetMapping("/profile")
     public String profile(Model model, Principal principal) {
-    	User user = repo.findByUsername(principal.getName())
-                .orElseThrow();
-        model.addAttribute("user", user);
-        return "users/profile";
+
+        if (principal == null) {
+            return "redirect:/login";
+        }
+
+        return repo.findByUsername(principal.getName())
+                .map(user -> {
+                    model.addAttribute("user", user);
+                    return "users/profile";
+                })
+                .orElse("redirect:/login");
     }
     
     @PostMapping("/profile/edit")

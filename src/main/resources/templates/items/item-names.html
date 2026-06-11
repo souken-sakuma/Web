@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: base(~{::title}, ~{::content})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>商品名一覧</title>
+</head>
+
+<div th:fragment="content">
+
+    <div class="container py-4">
+
+        <h2>商品名一覧</h2>
+
+        <table class="table-common">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>商品名</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="item, stat : ${items}">
+                    <td th:text="${stat.index + 1}"></td>
+                    <td th:text="${item.name}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="/" class="btn btn-secondary mt-3">メインメニューに戻る</a>
+
+    </div>
+
+</div>
+</html>

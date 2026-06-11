@@ -11,6 +11,13 @@
 	  <div th:fragment="content">
 
 	      <h1>全ユーザーの注文履歴</h1>
+		  
+		  <h2 class="mb-4">
+		      注文履歴
+		      <span class="badge bg-primary ms-2" th:text="${totalOrders} + ' 件'"></span>
+		  </h2>
+
+
 
 	      <div sec:authorize="hasRole('ADMIN')">
 	      </div>

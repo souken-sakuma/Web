@@ -51,23 +51,25 @@
                         <td th:text="${item.price}"></td>
                         <td th:text="${item.stock}"></td>
 
-                        <td>
-                            <a th:href="@{'/cart/add/' + ${item.id}}" class="btn btn-primary btn-sm me-2">
-                                カートに追加
-                            </a>
+						<td>
+						    <!-- ログインしている場合だけ表示 -->
+						    <span sec:authorize="isAuthenticated()">
+						        <a th:href="@{'/cart/add/' + ${item.id}}" class="btn btn-primary btn-sm me-2">
+						            カートに追加
+						        </a>
+						    </span>
 
-                            <span sec:authorize="hasRole('ADMIN')">
-                                <a th:href="@{/items/edit/{id}(id=${item.id})}" class="btn btn-warning btn-sm me-2">
-                                    編集
-                                </a>
-								<form th:action="@{/items/delete/{id}(id=${item.id})}" method="post" style="display:inline;">
-								    <button type="submit" class="btn btn-danger btn-sm">削除</button>
-								</form>
+						    <!-- 管理者だけが使える操作 -->
+						    <span sec:authorize="hasRole('ADMIN')">
+						        <a th:href="@{/items/edit/{id}(id=${item.id})}" class="btn btn-warning btn-sm me-2">
+						            編集
+						        </a>
+						        <form th:action="@{/items/delete/{id}(id=${item.id})}" method="post" style="display:inline;">
+						            <button type="submit" class="btn btn-danger btn-sm">削除</button>
+						        </form>
+						    </span>
+						</td>
 
-
-
-                            </span>
-                        </td>
                     </tr>
                 </tbody>
             </table>

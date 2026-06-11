@@ -1,5 +1,7 @@
 package com.example.demo.user;
 
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,4 +52,10 @@ public class UserService {
     	
     	return String.format("A%04d", nextNumber);
     }
+    
+    
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
 }

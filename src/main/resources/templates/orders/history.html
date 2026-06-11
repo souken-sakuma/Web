@@ -20,6 +20,7 @@
                         <th>#</th>
                         <th>注文日</th>
                         <th>合計金額</th>
+						<th sec:authorize="hasRole('ADMIN')">注文者</th>
                         <th>詳細</th>
                     </tr>
                 </thead>
@@ -29,7 +30,7 @@
                         <td th:text="${stat.index + 1}"></td>
                         <td th:text="${#temporals.format(order.orderDate, 'yyyy/MM/dd HH:mm')}"></td>
                         <td th:text="${order.totalPrice}"></td>
-
+						<td sec:authorize="hasRole('ADMIN')" th:text="${order.user.name}"></td>
                         <td>
                             <a th:href="@{/orders/detail/{id}(id=${order.id})}"
                                class="btn btn-primary btn-sm">

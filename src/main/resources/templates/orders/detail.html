@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layout/base :: base(~{::title}, ~{::content})}">
 
@@ -6,30 +5,52 @@
     <title>注文詳細</title>
 </head>
 
-<body>
 <div th:fragment="content">
 
-<h1>注文詳細</h1>
+    <h1 class="mb-4">注文詳細</h1>
 
-<p>注文日: <span th:text="${order.orderDate}"></span></p>
-<p>合計金額: <span th:text="${order.totalPrice}"></span>円</p>
+	<div class="card mb-4">
+	    <div class="card-body">
+	        <h5 class="card-title mb-3">注文情報</h5>
 
-<h2>注文商品</h2>
+	        <p class="mb-2">
+	            <strong>注文日:</strong>
+	            <span th:text="${order.orderDate}"></span>
+	        </p>
 
-<table border="1">
-    <tr>
-        <th>商品名</th>
-        <th>数量</th>
-        <th>小計</th>
-    </tr>
+	        <p class="mb-0">
+	            <strong>合計金額:</strong>
+	            <span th:text="${order.totalPrice}"></span> 円
+	        </p>
+	    </div>
+	</div>
 
-    <tr th:each="item : ${order.items}">
-        <td th:text="${item.item.name}"></td>
-        <td th:text="${item.quantity}"></td>
-        <td th:text="${item.price}"></td>
-    </tr>
-</table>
+
+    <h2 class="mt-4">注文商品</h2>
+
+    <div class="table-responsive mt-3">
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-info">
+                <tr>
+                    <th>商品名</th>
+                    <th>数量</th>
+                    <th>小計</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="oi : ${order.items}">
+                    <td th:text="${oi.item.name}"></td>
+                    <td th:text="${oi.quantity}"></td>
+                    <td th:text="${oi.price}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a href="/orders" class="btn btn-secondary mt-3">注文一覧に戻る</a>
+    <a href="/" class="btn btn-outline-primary mt-3">メインメニューに戻る</a>
 
 </div>
-</body>
+
 </html>
