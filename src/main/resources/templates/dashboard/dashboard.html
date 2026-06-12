@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ダッシュボード</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        nav {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 共通ヘッダー -->
+    <div th:replace="layout/fragments/header :: header"></div>
+
+    <!-- 共通ナビ -->
+    <nav class="bg-light p-2 mb-3">
+        <a href="/items" class="me-3">商品ページ</a>
+        <a href="/users" class="me-3">ユーザーページ</a>
+        <a href="/cart" class="me-3">買い物かご</a>
+    </nav>
+
+    <h1>📊 月別売上ダッシュボード</h1>
+
+    <div class="card">
+        <canvas id="salesChart" height="120"></canvas>
+    </div>
+
+    <script>
+        fetch('/api/sales/monthly')
+            .then(res => res.json())
+            .then(data => {
+                new Chart(document.getElementById('salesChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: data.map(d => d.month),
+                        datasets: [{
+                            label: '売上（円）',
+                            data: data.map(d => d.total),
+                            backgroundColor: 'rgba(54,162,235,0.6)',
+                            borderColor: 'rgba(54,162,235,1)',
+                            borderWidth: 1,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: value => value.toLocaleString() + "円"
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            });
+    </script>
+
+    <a href="/" class="btn btn-secondary mt-3">メインメニューに戻る</a>
+</body>
+</html>

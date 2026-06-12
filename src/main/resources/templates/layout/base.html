@@ -20,6 +20,10 @@
         <a href="/items" class="me-3">商品ページ</a>
         <a href="/users" class="me-3">ユーザーページ</a>
         <a href="/cart" class="me-3">買い物かご</a>
+		<!-- ★ 管理者だけ表示 -->
+        <a href="/dashboard" class="me-3" sec:authorize="hasRole('ADMIN')">
+            ダッシュボード
+        </a>
     </nav>
 
     <!-- ページごとの中身 -->

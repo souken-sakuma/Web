@@ -27,6 +27,15 @@
                     <li class="list-group-item">
                         <a href="/cart" class="text-decoration-none">買い物かご</a>
                     </li>
+					<!-- ★ ADMIN のときだけ表示 -->
+	                <li class="list-group-item" sec:authorize="hasRole('ADMIN')">
+	                    <a href="/dashboard" class="text-decoration-none">ダッシュボード</a>
+	                </li>
+
+	                <!-- ★ ADMIN のときだけ表示 -->
+	                <li class="list-group-item" sec:authorize="hasRole('ADMIN')">
+	                    <a href="/orders/history" class="text-decoration-none">全ユーザー購入履歴</a>
+	                </li>
                 </ul>
 
                 <div class="d-flex justify-content-between">

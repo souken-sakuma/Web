@@ -36,6 +36,9 @@ public class SecurityConfig {
     		    // 管理者だけが使うユーザー管理系
     		    .requestMatchers("/users/list", "/users/new", "/users/edit/**", "/users/delete/**")
     		        .hasRole("ADMIN")
+    		        
+		        .requestMatchers("/api/sales/**").hasRole("ADMIN")
+		        .requestMatchers("/dashboard").hasRole("ADMIN")
 
     		    .requestMatchers("/orders/admin-history").hasRole("ADMIN")
     		    .anyRequest().authenticated()
