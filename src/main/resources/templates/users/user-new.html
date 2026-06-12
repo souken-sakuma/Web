@@ -1,45 +1,62 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: base(
+            ~{::title},
+            ~{::content}
+      )}">
+
 <head>
-    <meta charset="UTF-8">
     <title>ユーザー追加</title>
 </head>
+
 <body>
+<div th:fragment="content" class="container mt-4">
 
-<h1>新規ユーザー追加</h1>
+    <div class="card shadow-sm">
+        <div class="card-body">
 
-<form th:action="@{/admin/users/new}" th:object="${user}" method="post">
+            <h1 class="h4 mb-4">新規ユーザー追加</h1>
 
-    <div>
-        <label>名前：</label>
-        <input type="text" th:field="*{name}">
+            <form th:action="@{/admin/users/new}" th:object="${user}" method="post">
+
+                <div class="mb-3">
+                    <label class="form-label">名前</label>
+                    <input type="text" th:field="*{name}" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">年齢</label>
+                    <input type="number" th:field="*{age}" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">ユーザー名</label>
+                    <input type="text" th:field="*{username}" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">パスワード</label>
+                    <input type="password" th:field="*{password}" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">ロール</label>
+                    <select th:field="*{role}" class="form-select">
+                        <option value="USER">一般ユーザー</option>
+                        <option value="ADMIN">管理者</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">登録</button>
+            </form>
+
+        </div>
     </div>
 
-    <div>
-        <label>年齢：</label>
-        <input type="number" th:field="*{age}">
+    <div class="mt-3">
+        <a href="/admin/users" class="btn btn-outline-secondary">一覧に戻る</a>
     </div>
 
-    <div>
-        <label>ユーザー名：</label>
-        <input type="text" th:field="*{username}">
-    </div>
-
-    <div>
-        <label>パスワード：</label>
-        <input type="password" th:field="*{password}">
-    </div>
-
-    <div>
-        <label>ロール：</label>
-        <select th:field="*{role}">
-            <option value="USER">一般ユーザー</option>
-            <option value="ADMIN">管理者</option>
-        </select>
-    </div>
-
-    <button type="submit">登録</button>
-</form>
-
+</div>
 </body>
 </html>
